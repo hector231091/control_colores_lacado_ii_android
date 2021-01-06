@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         ultimo_hora_inicio_color_fila_1.text = colour_start_time_label.text
         ultimo_hora_final_color_fila_1.text = colour_end_time_label.text
         ultimo_bastidores_fila_1.text = hangers_entry.text
-        ultimo_observaciones_label.text = observations_entry.text
+        ultimo_observaciones_fila_1.text = observations_entry.text
     }
 
     private fun register_and_continue(){
