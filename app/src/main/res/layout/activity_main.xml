@@ -25,9 +25,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:background="@color/teal_200"
-                android:textStyle="bold"
-                android:textColor="@color/black"
                 android:textSize="20dip"
                 android:text="COLOR"/>
 
@@ -37,8 +34,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:background="@color/teal_200"
-                android:textColor="@color/black"
                 android:layout_marginLeft="5dp"
                 android:textSize="20dip"
                 android:text="INICIO CAMBIO"/>
@@ -49,8 +44,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:background="@color/teal_200"
-                android:textColor="@color/black"
                 android:layout_marginLeft="5dp"
                 android:textSize="20dip"
                 android:text="INICIO COLOR"/>
@@ -61,8 +54,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:background="@color/teal_200"
-                android:textColor="@color/black"
                 android:layout_marginLeft="5dp"
                 android:textSize="20dip"
                 android:text="FINAL COLOR"/>
@@ -73,8 +64,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:background="@color/teal_200"
-                android:textColor="@color/black"
                 android:layout_marginLeft="5dp"
                 android:textSize="20dip"
                 android:text="BASTIDORES"/>
@@ -85,8 +74,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:background="@color/teal_200"
-                android:textColor="@color/black"
                 android:layout_marginLeft="5dp"
                 android:textSize="20dip"
                 android:text="OBSERVACIONES"/>
@@ -165,7 +152,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:background="@color/purple_500"
                 android:textSize="30dip"
                 android:text="REGISTRAR Y DESCANSO"/>
 
@@ -175,7 +161,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:background="@color/purple_500"
                 android:layout_marginLeft="5dp"
                 android:textSize="30dip"
                 android:text="REGISTRAR Y CONTINUAR"/>
@@ -186,7 +171,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:background="@color/purple_500"
                 android:layout_marginLeft="5dp"
                 android:textSize="30dip"
                 android:text="REGISTRAR Y FINALIZAR"/>

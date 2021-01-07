@@ -1,11 +1,17 @@
 package com.hectormorales.colores_cabina_lacado_ii_android
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
+import android.support.v7.app.AppCompatActivity
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.BufferedWriter
 import java.io.File
+import java.io.FileWriter
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.nio.file.Files.write
+import java.nio.file.StandardOpenOption
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +45,10 @@ class MainActivity : AppCompatActivity() {
 
         register_continue_button.setOnClickListener {
             register_and_continue()
+        }
+
+        register_stop_button.setOnClickListener(){
+            saveFile()
         }
     }
     private fun print_last_record(){
@@ -79,6 +89,7 @@ class MainActivity : AppCompatActivity() {
         }
         else{
             errores.text = "No furula"
+
         }
     }
 
@@ -100,14 +111,17 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun save_data_in_txt(texto: String){
-        val rutaSD = baseContext.
-        getExternalFilesDir(null)?.absolutePath
-        val miCarpeta = File(rutaSD, "datos")
-        if(!miCarpeta.exists()){
-            miCarpeta.mkdir()
+    fun saveFile() {
+        val hola = Environment.getStorageDirectory()
+        val nombreArchivo = Environment.DIRECTORY_DOWNLOADS.toString() + "/" + "test.csv"
+        Toast.makeText(this, "Guardando en $nombreArchivo", Toast.LENGTH_SHORT).show()
+        val file = File(nombreArchivo)
+        if (!file.exists()) {
+            file.createNewFile()
         }
-        val ficheroFisico = File(miCarpeta, "datos.txt")
-        ficheroFisico.appendText("$texto\n")
+        val fileWriter = FileWriter(file)
+        val bufferedWriter = BufferedWriter(fileWriter)
+        bufferedWriter.write("Hola")// <-- Aquí el contenido
+        bufferedWriter.close()
     }
 }
