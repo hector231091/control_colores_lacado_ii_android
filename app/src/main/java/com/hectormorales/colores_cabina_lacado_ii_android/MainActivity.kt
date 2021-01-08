@@ -1,22 +1,25 @@
 package com.hectormorales.colores_cabina_lacado_ii_android
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Environment
-import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.nio.file.Files.write
-import java.nio.file.StandardOpenOption
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // Para mantener la pantalla siempre en modo LANDSCAPE.
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
 
         // Pongo todos los botones en "false" menos el de hora inicio cambio.
         change_start_time_button.isEnabled = true
@@ -51,6 +54,7 @@ class MainActivity : AppCompatActivity() {
             saveFile()
         }
     }
+
     private fun print_last_record(){
         ultimo_color_fila_1.text = colour_entry.text
         ultimo_hora_inicio_cambio_fila_1.text = change_start_time_label.text
@@ -85,11 +89,11 @@ class MainActivity : AppCompatActivity() {
             colour_start_time_button.isEnabled = true
 
             // Quitamos el error:
-            errores.text = ""
+            //errores.text = ""
         }
         else{
-            errores.text = "No furula"
-
+            //errores.text = "No furula"
+            Snackbar.make(findViewById(R.id.colour_entry), "Mensaje a mostrar", Snackbar.LENGTH_SHORT).show()
         }
     }
 
