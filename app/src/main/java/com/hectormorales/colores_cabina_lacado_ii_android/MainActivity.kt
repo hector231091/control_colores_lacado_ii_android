@@ -19,6 +19,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Quitar la ActionBar de la aplicación.
+        supportActionBar?.hide()
+
         // Para mantener la pantalla siempre en modo LANDSCAPE.
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
 
@@ -52,7 +55,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         register_stop_button.setOnClickListener(){
-            saveFile()
+            register_and_stop()
+        }
+
+        register_end_button.setOnClickListener(){
+            register_and_end()
         }
     }
 
@@ -65,34 +72,16 @@ class MainActivity : AppCompatActivity() {
         ultimo_observaciones_fila_1.text = observations_entry.text
     }
 
-    private fun register_and_continue() {
+    private fun check_all_necessary_input_data():Boolean{
 
-        // Si color_ok, comprobar_bastidores y comprobar_campos_horas == true entonces podemos registar,
-        //si no es así, mostramos un mensaje diciendo que hay errores que corregir.
+        // Variable de ayuda.
+        var variable = ""
 
+        // Comprobamos que todos los campos están rellenos.
         if (check_colour() && check_hours() && check_hangers()) {
-            // Ponemos el lo último que hemos introducido en la pantalla:
-            print_last_record()
-
-            // Poner función para guardar esto en un archivo:
-            write_data_in_storage()
-
-            // Copiamos la hora del final_color en el inicio_cambio:
-            colour_start_time_label.text = colour_end_time_label.text
-
-            // Borramos todos los labels:
-            colour_entry.setText("")
-            colour_start_time_label.text = ""
-            colour_end_time_label.text = ""
-            hangers_entry.setText("")
-            observations_entry.setText("")
-
-            // Activamos el botón del inicio del color:
-            colour_start_time_button.isEnabled = true
-
-            // Quitamos el error:
-            //errores.text = ""
-        } else {
+            variable = ""
+        }
+        else {
             //errores.text = "No furula"
             if (check_colour() == false) {
                 //Snackbar
@@ -103,19 +92,94 @@ class MainActivity : AppCompatActivity() {
                 val message = "El color introducido no es correcto."
                 dialog_alert(message)
 
-            }
-            else if (check_hours() == false) {
+            } else if (check_hours() == false) {
                 // Hacemos un "AlertDialog".
                 val message = "Debes introducir las tres horas."
                 dialog_alert(message)
 
-            }
-            else if (check_hangers() == false) {
+            } else if (check_hangers() == false) {
                 // Hacemos un "AlertDialog".
                 val message = "El campo de bastidores debe estar relleno."
                 dialog_alert(message)
-
             }
+            variable = "1"
+        }
+        return variable.isEmpty()
+    }
+
+    private fun register_and_stop(){
+
+        // Poner un mensaje de que se va a registrar e irse al descanso y si se quiere continuar o no.
+
+        if(check_all_necessary_input_data()){
+            // Ponemos el lo último que hemos introducido en la pantalla:
+            print_last_record()
+
+            // Poner función para guardar esto en un archivo:
+            write_data_in_storage()
+
+            // Borramos todos los labels que hay que borrar:
+            colour_entry.setText("")
+            change_start_time_label.text = ""
+            colour_start_time_label.text = ""
+            colour_end_time_label.text = ""
+            hangers_entry.setText("")
+            observations_entry.setText("")
+
+            // Activamos el botón del inicio del cambio:
+            change_start_time_button.isEnabled = true
+        }
+    }
+
+    private fun register_and_end(){
+
+        // Poner un mensaje que avise de que se va a cerrar la aplicación y decidir si continuar o no.
+
+        if(check_all_necessary_input_data()){
+            // Ponemos el lo último que hemos introducido en la pantalla:
+            print_last_record()
+
+            // Poner función para guardar esto en un archivo:
+            write_data_in_storage()
+
+            // Borramos todos los labels que hay que borrar:
+            colour_entry.setText("")
+            change_start_time_label.text = ""
+            colour_start_time_label.text = ""
+            colour_end_time_label.text = ""
+            hangers_entry.setText("")
+            observations_entry.setText("")
+
+            // Activamos el botón del inicio del color:
+            colour_start_time_button.isEnabled = true
+
+            finish()
+            System.exit(0)
+        }
+
+    }
+
+    private fun register_and_continue() {
+
+        if(check_all_necessary_input_data()){
+            // Ponemos el lo último que hemos introducido en la pantalla:
+            print_last_record()
+
+            // Poner función para guardar esto en un archivo:
+            write_data_in_storage()
+
+            // Copiamos la hora del final_color en el inicio_cambio:
+            colour_start_time_label.text = colour_end_time_label.text
+
+            // Borramos todos los labels que hay que borrar:
+            colour_entry.setText("")
+            colour_start_time_label.text = ""
+            colour_end_time_label.text = ""
+            hangers_entry.setText("")
+            observations_entry.setText("")
+
+            // Activamos el botón del inicio del color:
+            colour_start_time_button.isEnabled = true
         }
     }
 
@@ -131,6 +195,7 @@ class MainActivity : AppCompatActivity() {
 
         // Dirección en la que lo vamos a guardar
         val file_direccion = getExternalFilesDir(null)
+
         // Creamos una carpeta dentro de la dirección anterior.
         val folder = File(file_direccion, "Datos Lacado")
         // Comprobamos que existe la carpeta. En caso contrario la creamos.
@@ -141,10 +206,11 @@ class MainActivity : AppCompatActivity() {
         val ficheroFisico = File(folder, "datos.csv")
         ficheroFisico.appendText(data)
 
+        val list_of_historic_data = arrayListOf<String>(colour_entry.getText().toString())
     }
 
     private fun read_data_in_storage(){
-        
+
     }
 
     private fun check_hangers():Boolean {
