@@ -1,16 +1,11 @@
 package com.hectormorales.colores_cabina_lacado_ii_android
 
-import android.R.attr.alertDialogTheme
-import android.R.drawable
-import android.content.DialogInterface
 import android.content.pm.ActivityInfo
-import android.icu.text.DateTimePatternGenerator.PatternInfo.OK
 import android.os.Bundle
 import android.os.Environment
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.BufferedWriter
 import java.io.File
@@ -80,6 +75,7 @@ class MainActivity : AppCompatActivity() {
             print_last_record()
 
             // Poner función para guardar esto en un archivo:
+            write_data_in_storage()
 
             // Copiamos la hora del final_color en el inicio_cambio:
             colour_start_time_label.text = colour_end_time_label.text
@@ -123,6 +119,34 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun write_data_in_storage() {
+
+        // Creamos una variable String con todos los datos.
+        val data = colour_entry.getText().toString() + ";" +
+                change_start_time_label.text.toString() +  ";" +
+                colour_start_time_label.text.toString() +  ";" +
+                colour_end_time_label.text.toString()+  ";" +
+                hangers_entry.getText().toString()+  ";" +
+                observations_entry.getText().toString() + "\n"
+
+        // Dirección en la que lo vamos a guardar
+        val file_direccion = getExternalFilesDir(null)
+        // Creamos una carpeta dentro de la dirección anterior.
+        val folder = File(file_direccion, "Datos Lacado")
+        // Comprobamos que existe la carpeta. En caso contrario la creamos.
+        if(!folder.exists()){
+            folder.mkdir()
+        }
+        // Creamos el fichero y le pasamos los datos que debe almacenar.
+        val ficheroFisico = File(folder, "datos.csv")
+        ficheroFisico.appendText(data)
+
+    }
+
+    private fun read_data_in_storage(){
+        
+    }
+
     private fun check_hangers():Boolean {
         return hangers_entry.text.toString().isNotEmpty()
     }
@@ -164,7 +188,7 @@ class MainActivity : AppCompatActivity() {
         builder.setMessage(message)
 
         // Mostrar un botón neutral para cerrar la alerta.
-        builder.setNeutralButton("ENTENDIDO"){_,_ ->
+        builder.setNeutralButton("ENTENDIDO"){ _, _ ->
         }
 
         // Creamos la alerta
