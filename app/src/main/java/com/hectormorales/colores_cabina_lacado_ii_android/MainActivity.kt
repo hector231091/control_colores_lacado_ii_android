@@ -3,15 +3,19 @@ package com.hectormorales.colores_cabina_lacado_ii_android
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.Environment
-import android.widget.Toast
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.opencsv.CSVParserBuilder
+import com.opencsv.CSVReader
+import com.opencsv.CSVReaderBuilder
 import kotlinx.android.synthetic.main.activity_main.*
-import java.io.BufferedWriter
-import java.io.File
-import java.io.FileWriter
+import java.io.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
+import java.util.function.Consumer
+import kotlin.system.exitProcess
 
 
 class MainActivity : AppCompatActivity() {
@@ -63,7 +67,29 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun print_last_record(){
+    private fun show_data(){
+
+        ultimo_color_fila_4.text = ultimo_color_fila_3.text
+        ultimo_hora_inicio_cambio_fila_4.text = ultimo_hora_inicio_cambio_fila_3.text
+        ultimo_hora_inicio_color_fila_4.text = ultimo_hora_inicio_color_fila_3.text
+        ultimo_hora_final_color_fila_4.text = ultimo_hora_final_color_fila_3.text
+        ultimo_bastidores_fila_4.text = ultimo_bastidores_fila_3.text
+        ultimo_observaciones_fila_4.text = ultimo_observaciones_fila_3.text
+
+        ultimo_color_fila_3.text = ultimo_color_fila_2.text
+        ultimo_hora_inicio_cambio_fila_3.text = ultimo_hora_inicio_cambio_fila_2.text
+        ultimo_hora_inicio_color_fila_3.text = ultimo_hora_inicio_color_fila_2.text
+        ultimo_hora_final_color_fila_3.text = ultimo_hora_final_color_fila_2.text
+        ultimo_bastidores_fila_3.text = ultimo_bastidores_fila_2.text
+        ultimo_observaciones_fila_3.text = ultimo_observaciones_fila_2.text
+
+        ultimo_color_fila_2.text = ultimo_color_fila_1.text
+        ultimo_hora_inicio_cambio_fila_2.text = ultimo_hora_inicio_cambio_fila_1.text
+        ultimo_hora_inicio_color_fila_2.text = ultimo_hora_inicio_color_fila_1.text
+        ultimo_hora_final_color_fila_2.text = ultimo_hora_final_color_fila_1.text
+        ultimo_bastidores_fila_2.text = ultimo_bastidores_fila_1.text
+        ultimo_observaciones_fila_2.text = ultimo_observaciones_fila_1.text
+
         ultimo_color_fila_1.text = colour_entry.text
         ultimo_hora_inicio_cambio_fila_1.text = change_start_time_label.text
         ultimo_hora_inicio_color_fila_1.text = colour_start_time_label.text
@@ -107,13 +133,37 @@ class MainActivity : AppCompatActivity() {
         return variable.isEmpty()
     }
 
+    private fun register_and_continue() {
+
+        if(check_all_necessary_input_data()){
+            // Ponemos lo último que hemos introducido en la pantalla:
+            show_data()
+
+            // Poner función para guardar esto en un archivo:
+            write_data_in_storage()
+
+            // Copiamos la hora del final_color en el inicio_cambio:
+            change_start_time_label.text = colour_end_time_label.text
+
+            // Borramos todos los labels que hay que borrar:
+            colour_entry.setText("")
+            colour_start_time_label.text = ""
+            colour_end_time_label.text = ""
+            hangers_entry.setText("")
+            observations_entry.setText("")
+
+            // Activamos el botón del inicio del color:
+            colour_start_time_button.isEnabled = true
+        }
+    }
+
     private fun register_and_stop(){
 
         // Poner un mensaje de que se va a registrar e irse al descanso y si se quiere continuar o no.
 
         if(check_all_necessary_input_data()){
             // Ponemos el lo último que hemos introducido en la pantalla:
-            print_last_record()
+            show_data()
 
             // Poner función para guardar esto en un archivo:
             write_data_in_storage()
@@ -137,7 +187,7 @@ class MainActivity : AppCompatActivity() {
 
         if(check_all_necessary_input_data()){
             // Ponemos el lo último que hemos introducido en la pantalla:
-            print_last_record()
+            show_data()
 
             // Poner función para guardar esto en un archivo:
             write_data_in_storage()
@@ -154,32 +204,7 @@ class MainActivity : AppCompatActivity() {
             colour_start_time_button.isEnabled = true
 
             finish()
-            System.exit(0)
-        }
-
-    }
-
-    private fun register_and_continue() {
-
-        if(check_all_necessary_input_data()){
-            // Ponemos el lo último que hemos introducido en la pantalla:
-            print_last_record()
-
-            // Poner función para guardar esto en un archivo:
-            write_data_in_storage()
-
-            // Copiamos la hora del final_color en el inicio_cambio:
-            colour_start_time_label.text = colour_end_time_label.text
-
-            // Borramos todos los labels que hay que borrar:
-            colour_entry.setText("")
-            colour_start_time_label.text = ""
-            colour_end_time_label.text = ""
-            hangers_entry.setText("")
-            observations_entry.setText("")
-
-            // Activamos el botón del inicio del color:
-            colour_start_time_button.isEnabled = true
+            exitProcess(0)
         }
     }
 
@@ -198,6 +223,7 @@ class MainActivity : AppCompatActivity() {
 
         // Creamos una carpeta dentro de la dirección anterior.
         val folder = File(file_direccion, "Datos Lacado")
+        //Log.i("Dirección: ", folder.toString())
         // Comprobamos que existe la carpeta. En caso contrario la creamos.
         if(!folder.exists()){
             folder.mkdir()
@@ -206,11 +232,52 @@ class MainActivity : AppCompatActivity() {
         val ficheroFisico = File(folder, "datos.csv")
         ficheroFisico.appendText(data)
 
-        val list_of_historic_data = arrayListOf<String>(colour_entry.getText().toString())
+        val list_of_historic_data = arrayListOf<String>()
+        list_of_historic_data.add(data)
+
+        //read_colours(folder)
+        //read_data_in_storage(folder)
     }
 
-    private fun read_data_in_storage(){
+    private fun read_colours(folder: File){
 
+        // Creamos la dirección en la que se ubica el archivo
+        val fileName = folder.toString() + "/Colores.csv"
+        Log.i("Dirección: ", fileName)
+        CSVReader(FileReader(fileName)).use { reader ->
+            val r = reader.readAll()
+            r.forEach(Consumer { x: Array<String?>? ->
+                System.out.println(Arrays.toString(x))
+            })
+        }
+    }
+
+    private fun read_data_in_storage(folder: File){
+
+        val fileName = folder.toString() + "/Colores.csv"
+        val csvReader = CSVReaderBuilder(FileReader(fileName))
+                .withCSVParser(CSVParserBuilder().withSeparator(';').build())
+                .build()
+
+        // Maybe do something with the header if there is one
+        val header = csvReader.readNext()
+
+        //
+        var myMap: Map<String, String> = mutableMapOf()
+        // Read the rest
+        var line: Array<String>? = csvReader.readNext()
+
+        val list: List<Array<String>> = ArrayList()
+
+        //var line_1: androidx.collection.ArrayMap<String,String> = csvReader.readNext()
+
+        while (line != null) {
+            // Do something with the data
+            println(line[0])
+            println(line[1])
+
+            line = csvReader.readNext()
+        }
     }
 
     private fun check_hangers():Boolean {
@@ -224,25 +291,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun check_colour():Boolean{
-        return colour_entry.text.toString().isNotEmpty()
-    }
+        var colour_list: MutableList<String> = mutableListOf()
 
-    fun check_colour_in_list(){
-
-    }
-
-    private fun saveFile() {
-        val hola = Environment.getStorageDirectory()
-        val nombreArchivo = Environment.DIRECTORY_DOWNLOADS.toString() + "/" + "test.csv"
-        Toast.makeText(this, "Guardando en $nombreArchivo", Toast.LENGTH_SHORT).show()
-        val file = File(nombreArchivo)
-        if (!file.exists()) {
-            file.createNewFile()
+        for (colour in 40100000..40100400){
+            colour_list.add(colour.toString())
         }
-        val fileWriter = FileWriter(file)
-        val bufferedWriter = BufferedWriter(fileWriter)
-        bufferedWriter.write("Hola")// <-- Aquí el contenido
-        bufferedWriter.close()
+        colour_list.add("FIN")
+
+        return colour_entry.text.toString().isNotEmpty() &&
+                colour_list.contains(colour_entry.text.toString())
     }
 
     private fun dialog_alert(message: String){
