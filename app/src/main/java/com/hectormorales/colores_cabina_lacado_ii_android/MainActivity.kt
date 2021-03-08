@@ -15,7 +15,6 @@ import java.util.*
 import java.util.function.Consumer
 import kotlin.system.exitProcess
 
-
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
