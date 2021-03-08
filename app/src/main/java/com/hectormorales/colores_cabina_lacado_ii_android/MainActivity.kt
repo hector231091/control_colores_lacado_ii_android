@@ -1,8 +1,6 @@
 package com.hectormorales.colores_cabina_lacado_ii_android
 
-import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -25,9 +23,6 @@ class MainActivity : AppCompatActivity() {
 
         // Quitar la ActionBar de la aplicación.
         supportActionBar?.hide()
-
-        // Para mantener la pantalla siempre en modo LANDSCAPE.
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
 
         // Pongo todos los botones en "false" menos el de hora inicio cambio.
         change_start_time_button.isEnabled = true
