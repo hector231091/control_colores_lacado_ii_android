@@ -2,4 +2,5 @@
 <resources>
     <dimen name="button_height">64dp</dimen>
     <dimen name="historic_entry_height">48dp</dimen>
+    <dimen name="history_entry_vertical_space">4dp</dimen>
 </resources>
