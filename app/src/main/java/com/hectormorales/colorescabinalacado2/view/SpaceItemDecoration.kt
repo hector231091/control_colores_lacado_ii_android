@@ -1,4 +1,4 @@
-package com.hectormorales.colores_cabina_lacado_ii_android.view
+package com.hectormorales.colorescabinalacado2.view
 
 import android.graphics.Rect
 import android.view.View

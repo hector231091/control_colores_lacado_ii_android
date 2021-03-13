@@ -1,1 +1,1 @@
-control_colores_lacado_ii_android
+App "Control Colores Lacado 2" para Android

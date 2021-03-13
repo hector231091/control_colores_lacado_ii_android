@@ -1,4 +1,4 @@
-package com.hectormorales.colores_cabina_lacado_ii_android.view
+package com.hectormorales.colorescabinalacado2.view
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.hectormorales.colores_cabina_lacado_ii_android.R
-import com.hectormorales.colores_cabina_lacado_ii_android.databinding.HistoricItemBinding
-import com.hectormorales.colores_cabina_lacado_ii_android.databinding.HistoricalViewBinding
+import com.hectormorales.colorescabinalacado2.R
+import com.hectormorales.colorescabinalacado2.databinding.HistoricItemBinding
+import com.hectormorales.colorescabinalacado2.databinding.HistoricalViewBinding
 
 class HistoricalView @JvmOverloads constructor(
     context: Context,

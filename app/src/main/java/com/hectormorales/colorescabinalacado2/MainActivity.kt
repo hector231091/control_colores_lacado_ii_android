@@ -1,4 +1,4 @@
-package com.hectormorales.colores_cabina_lacado_ii_android
+package com.hectormorales.colorescabinalacado2
 
 import android.os.Bundle
 import android.util.Log
@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.hectormorales.colores_cabina_lacado_ii_android.databinding.ActivityMainBinding
-import com.hectormorales.colores_cabina_lacado_ii_android.view.HistoricalItem
-import com.hectormorales.colores_cabina_lacado_ii_android.view.HistoricalUiModel
+import com.hectormorales.colorescabinalacado2.databinding.ActivityMainBinding
+import com.hectormorales.colorescabinalacado2.view.HistoricalItem
+import com.hectormorales.colorescabinalacado2.view.HistoricalUiModel
 import com.opencsv.CSVReader
 import java.io.*
 import java.time.LocalDateTime

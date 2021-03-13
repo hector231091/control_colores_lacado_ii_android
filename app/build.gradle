@@ -7,7 +7,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.hectormorales.colores_cabina_lacado_ii_android"
+        applicationId "com.hectormorales.colorescabinalacado2"
         minSdkVersion 26
         targetSdkVersion 30
         versionCode 1
