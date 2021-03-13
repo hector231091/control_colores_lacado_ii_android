@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.Colores_cabina_lacado_ii_android" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Primary brand color. -->

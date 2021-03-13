@@ -27,7 +27,7 @@
             android:id="@+id/change_start_time_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:background="@drawable/config_header_input_data"
             android:gravity="center"
@@ -38,7 +38,7 @@
             android:id="@+id/colour_start_time_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:background="@drawable/config_header_input_data"
             android:gravity="center"
@@ -49,7 +49,7 @@
             android:id="@+id/colour_end_time_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:background="@drawable/config_header_input_data"
             android:gravity="center"
@@ -60,7 +60,7 @@
             android:id="@+id/hangers_header"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:background="@drawable/config_header_input_data"
             android:gravity="center"
@@ -72,7 +72,7 @@
             android:id="@+id/observations_header"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:background="@drawable/config_header_input_data"
             android:gravity="center"
@@ -100,7 +100,7 @@
             android:id="@+id/change_start_time_label"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:background="@drawable/border_edit_text_and_text_view"
             android:gravity="center" />
@@ -109,7 +109,7 @@
             android:id="@+id/colour_start_time_label"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:background="@drawable/border_edit_text_and_text_view"
             android:gravity="center" />
@@ -118,7 +118,7 @@
             android:id="@+id/colour_end_time_label"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:background="@drawable/border_edit_text_and_text_view"
             android:gravity="center" />
@@ -127,7 +127,7 @@
             android:id="@+id/hangers_entry"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:background="@drawable/border_edit_text_and_text_view"
             android:gravity="center"
@@ -137,7 +137,7 @@
             android:id="@+id/observations_entry"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:background="@drawable/border_edit_text_and_text_view"
             android:gravity="center" />
@@ -157,27 +157,27 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="REGISTRAR Y DESCANSO"
-            android:textSize="30dip" />
+            android:textSize="30sp" />
 
         <Button
             android:id="@+id/register_continue_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="REGISTRAR Y CONTINUAR"
-            android:textSize="30dip" />
+            android:textSize="30sp" />
 
         <Button
             android:id="@+id/register_end_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="4dp"
+            android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:gravity="center"
             android:text="REGISTRAR Y FINALIZAR"
-            android:textSize="30dip" />
+            android:textSize="30sp" />
 
     </LinearLayout>
 
