@@ -157,7 +157,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="REGISTRAR Y DESCANSO"
-            android:textSize="30sp" />
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/register_continue_button"
@@ -167,7 +167,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="REGISTRAR Y CONTINUAR"
-            android:textSize="30sp" />
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/register_end_button"
@@ -177,7 +177,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="REGISTRAR Y FINALIZAR"
-            android:textSize="30sp" />
+            android:textSize="20sp" />
 
     </LinearLayout>
 
