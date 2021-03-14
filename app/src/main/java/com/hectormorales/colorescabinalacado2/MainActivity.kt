@@ -9,10 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.hectormorales.colorescabinalacado2.databinding.ActivityMainBinding
 import com.hectormorales.colorescabinalacado2.view.HistoricalUiModel
 import com.opencsv.CSVReader
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.input_view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.*
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.function.Consumer
 import kotlin.system.exitProcess
@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
+    private val mainViewModel: MainViewModel by viewModel()
     private val historicalViewModel: HistoricalViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,32 +29,16 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 
-        // Pongo todos los botones en "false" menos el de hora inicio cambio.
-        binding.inputView.binding.buttonChangeStartTimeHeader.isEnabled = true
-        binding.inputView.binding.buttonColourStartTimeHeader.isEnabled = false
-        binding.inputView.binding.buttonColourEndTimeHeader.isEnabled = false
-
         binding.inputView.binding.buttonChangeStartTimeHeader.setOnClickListener {
-            val dateTime =
-                LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss dd/mm/yy"))
-            binding.inputView.binding.textViewChangeStartTimeLabel.text = dateTime
-            binding.inputView.binding.buttonChangeStartTimeHeader.isEnabled = false
-            binding.inputView.binding.buttonColourStartTimeHeader.isEnabled = true
+            mainViewModel.onChangeStartButtonClick()
         }
 
         binding.inputView.binding.buttonColourStartTimeHeader.setOnClickListener {
-            val dateTime =
-                LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss dd/mm/yy"))
-            binding.inputView.binding.textViewColourStartTimeLabel.text = dateTime
-            binding.inputView.binding.buttonColourStartTimeHeader.isEnabled = false
-            binding.inputView.binding.buttonColourEndTimeHeader.isEnabled = true
+            mainViewModel.onColourStartButtonClick()
         }
 
         binding.inputView.binding.buttonColourEndTimeHeader.setOnClickListener {
-            val dateTime =
-                LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss dd/mm/yy"))
-            binding.inputView.binding.textViewColourEndTimeLabel.text = dateTime
-            binding.inputView.binding.buttonColourEndTimeHeader.isEnabled = false
+            mainViewModel.onColourEndButtonClick()
         }
 
         binding.buttonRegisterAndContinue.setOnClickListener {
@@ -68,8 +53,24 @@ class MainActivity : AppCompatActivity() {
             onRegisterAndFinishButtonClick()
         }
 
-        historicalViewModel.onStart()
+        with(mainViewModel) {
+            onStart()
+            inputUiModelObservable.observe(this@MainActivity, {
+                binding.inputView.bind(it)
+            })
+            changeStartEnableObservable.observe(this@MainActivity, { enabled ->
+                binding.inputView.binding.buttonChangeStartTimeHeader.isEnabled = enabled
+            })
+            colourStartEnableObservable.observe(this@MainActivity, { enabled ->
+                binding.inputView.binding.buttonColourStartTimeHeader.isEnabled = enabled
+            })
+            colourEndEnableObservable.observe(this@MainActivity, { enabled ->
+                binding.inputView.binding.buttonColourEndTimeHeader.isEnabled = enabled
+            })
+        }
+
         with(historicalViewModel) {
+            onStart()
             historicalListObservable.observe(this@MainActivity, { populateHistorical(it) })
         }
     }
@@ -120,7 +121,8 @@ class MainActivity : AppCompatActivity() {
             writeDataInStorage()
 
             // Copiamos la hora del final_color en el inicio_cambio:
-            binding.inputView.binding.textViewColourStartTimeLabel.text = binding.inputView.binding.textViewColourEndTimeLabel.text
+            binding.inputView.binding.textViewColourStartTimeLabel.text =
+                binding.inputView.binding.textViewColourEndTimeLabel.text
 
             // Borramos todos los labels que hay que borrar:
             binding.inputView.binding.editTextColour.setText("")
@@ -267,8 +269,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkHours(): Boolean {
-        return (binding.inputView.binding.textViewChangeStartTimeLabel.text.toString().isNotEmpty() &&
-                binding.inputView.binding.textViewColourStartTimeLabel.text.toString().isNotEmpty() &&
+        return (binding.inputView.binding.textViewChangeStartTimeLabel.text.toString()
+            .isNotEmpty() &&
+                binding.inputView.binding.textViewColourStartTimeLabel.text.toString()
+                    .isNotEmpty() &&
                 binding.inputView.binding.textViewColourEndTimeLabel.text.toString().isNotEmpty())
     }
 

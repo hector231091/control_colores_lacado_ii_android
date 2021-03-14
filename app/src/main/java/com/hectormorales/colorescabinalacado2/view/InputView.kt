@@ -21,7 +21,14 @@ class InputView @JvmOverloads constructor(
     }
 
     fun bind(model: InputUiModel) {
-
+        with(binding) {
+            editTextColour.setText(model.colourCode)
+            textViewChangeStartTimeLabel.text = model.changeStartTime
+            textViewColourStartTimeLabel.text = model.colourStartTime
+            textViewColourEndTimeLabel.text = model.colourEndTime
+            editTextHangersAmount.setText(model.hangersAmount)
+            editTextObservations.setText(model.observations)
+        }
     }
 }
 
@@ -31,6 +38,6 @@ data class InputUiModel(
     val changeStartTime: String,
     val colourStartTime: String,
     val colourEndTime: String,
-    val hangersAmount: Int,
+    val hangersAmount: String,
     val observations: String
 )
