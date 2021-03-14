@@ -26,9 +26,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 
-        // Quitar la ActionBar de la aplicación.
-        supportActionBar?.hide()
-
         // Pongo todos los botones en "false" menos el de hora inicio cambio.
         binding.changeStartTimeButton.isEnabled = true
         binding.colourStartTimeButton.isEnabled = false
