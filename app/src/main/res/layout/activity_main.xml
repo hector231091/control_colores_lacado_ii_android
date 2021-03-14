@@ -19,7 +19,7 @@
         android:layout_marginTop="32dp">
 
         <Button
-            android:id="@+id/register_stop_button"
+            android:id="@+id/buttonRegisterAndBreak"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -28,7 +28,7 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/register_continue_button"
+            android:id="@+id/buttonRegisterAndContinue"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
@@ -38,7 +38,7 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/register_end_button"
+            android:id="@+id/buttonRegisterAndFinish"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="4dp"
@@ -56,7 +56,7 @@
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:id="@+id/errores"
+        android:id="@+id/textViewErrors"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="32dp"

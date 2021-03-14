@@ -29,43 +29,43 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Pongo todos los botones en "false" menos el de hora inicio cambio.
-        binding.inputView.binding.changeStartTimeButton.isEnabled = true
-        binding.inputView.binding.colourStartTimeButton.isEnabled = false
-        binding.inputView.binding.colourEndTimeButton.isEnabled = false
+        binding.inputView.binding.buttonChangeStartTimeHeader.isEnabled = true
+        binding.inputView.binding.buttonColourStartTimeHeader.isEnabled = false
+        binding.inputView.binding.buttonColourEndTimeHeader.isEnabled = false
 
-        binding.inputView.binding.changeStartTimeButton.setOnClickListener {
+        binding.inputView.binding.buttonChangeStartTimeHeader.setOnClickListener {
             val dateTime =
                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss dd/mm/yy"))
-            binding.inputView.binding.changeStartTimeLabel.text = dateTime
-            binding.inputView.binding.changeStartTimeButton.isEnabled = false
-            binding.inputView.binding.colourStartTimeButton.isEnabled = true
+            binding.inputView.binding.textViewChangeStartTimeLabel.text = dateTime
+            binding.inputView.binding.buttonChangeStartTimeHeader.isEnabled = false
+            binding.inputView.binding.buttonColourStartTimeHeader.isEnabled = true
         }
 
-        binding.inputView.binding.colourStartTimeButton.setOnClickListener {
+        binding.inputView.binding.buttonColourStartTimeHeader.setOnClickListener {
             val dateTime =
                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss dd/mm/yy"))
-            binding.inputView.binding.colourStartTimeLabel.text = dateTime
-            binding.inputView.binding.colourStartTimeButton.isEnabled = false
-            binding.inputView.binding.colourEndTimeButton.isEnabled = true
+            binding.inputView.binding.textViewColourStartTimeLabel.text = dateTime
+            binding.inputView.binding.buttonColourStartTimeHeader.isEnabled = false
+            binding.inputView.binding.buttonColourEndTimeHeader.isEnabled = true
         }
 
-        binding.inputView.binding.colourEndTimeButton.setOnClickListener {
+        binding.inputView.binding.buttonColourEndTimeHeader.setOnClickListener {
             val dateTime =
                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss dd/mm/yy"))
-            binding.inputView.binding.colourEndTimeLabel.text = dateTime
-            binding.inputView.binding.colourEndTimeButton.isEnabled = false
+            binding.inputView.binding.textViewColourEndTimeLabel.text = dateTime
+            binding.inputView.binding.buttonColourEndTimeHeader.isEnabled = false
         }
 
-        binding.registerContinueButton.setOnClickListener {
+        binding.buttonRegisterAndContinue.setOnClickListener {
             onRegisterAndContinueButtonClick()
         }
 
-        binding.registerStopButton.setOnClickListener {
-            onRegisterAndStopButtonClick()
+        binding.buttonRegisterAndBreak.setOnClickListener {
+            onRegisterAndBreakButtonClick()
         }
 
-        binding.registerEndButton.setOnClickListener {
-            onRegisterAndEndButtonClick()
+        binding.buttonRegisterAndFinish.setOnClickListener {
+            onRegisterAndFinishButtonClick()
         }
 
         historicalViewModel.onStart()
@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
                 !checkColour() -> {
                     //Snackbar
                     //val message = "El color no es correcto."
-                    //Snackbar.make(findViewById(R.id.binding.colourEntry), message, Snackbar.LENGTH_LONG).show()
+                    //Snackbar.make(findViewById(R.id.binding.editTextColour), message, Snackbar.LENGTH_LONG).show()
 
                     // Hacemos un "AlertDialog".
                     val message = "El color introducido no es correcto."
@@ -120,21 +120,21 @@ class MainActivity : AppCompatActivity() {
             writeDataInStorage()
 
             // Copiamos la hora del final_color en el inicio_cambio:
-            binding.inputView.binding.colourStartTimeLabel.text = binding.inputView.binding.colourEndTimeLabel.text
+            binding.inputView.binding.textViewColourStartTimeLabel.text = binding.inputView.binding.textViewColourEndTimeLabel.text
 
             // Borramos todos los labels que hay que borrar:
-            binding.inputView.binding.colourEntry.setText("")
-            binding.inputView.binding.colourStartTimeLabel.text = ""
-            binding.inputView.binding.colourEndTimeLabel.text = ""
-            binding.inputView.binding.hangersEntry.setText("")
-            binding.inputView.binding.observationsEntry.setText("")
+            binding.inputView.binding.editTextColour.setText("")
+            binding.inputView.binding.textViewColourStartTimeLabel.text = ""
+            binding.inputView.binding.textViewColourEndTimeLabel.text = ""
+            binding.inputView.binding.editTextHangersAmount.setText("")
+            binding.inputView.binding.editTextObservations.setText("")
 
             // Activamos el botón del inicio del color:
-            binding.inputView.binding.colourStartTimeButton.isEnabled = true
+            binding.inputView.binding.buttonColourStartTimeHeader.isEnabled = true
         }
     }
 
-    private fun onRegisterAndStopButtonClick() {
+    private fun onRegisterAndBreakButtonClick() {
         // Poner un mensaje de que se va a registrar e irse al descanso y si se quiere continuar o no.
         if (checkAllNecessaryInputData()) {
             // Ponemos el lo último que hemos introducido en la pantalla:
@@ -144,19 +144,19 @@ class MainActivity : AppCompatActivity() {
             writeDataInStorage()
 
             // Borramos todos los labels que hay que borrar:
-            binding.inputView.binding.colourEntry.setText("")
-            binding.inputView.binding.changeStartTimeLabel.text = ""
-            binding.inputView.binding.colourStartTimeLabel.text = ""
-            binding.inputView.binding.colourEndTimeLabel.text = ""
-            binding.inputView.binding.hangersEntry.setText("")
-            binding.inputView.binding.observationsEntry.setText("")
+            binding.inputView.binding.editTextColour.setText("")
+            binding.inputView.binding.textViewChangeStartTimeLabel.text = ""
+            binding.inputView.binding.textViewColourStartTimeLabel.text = ""
+            binding.inputView.binding.textViewColourEndTimeLabel.text = ""
+            binding.inputView.binding.editTextHangersAmount.setText("")
+            binding.inputView.binding.editTextObservations.setText("")
 
             // Activamos el botón del inicio del cambio:
-            binding.inputView.binding.changeStartTimeButton.isEnabled = true
+            binding.inputView.binding.buttonChangeStartTimeHeader.isEnabled = true
         }
     }
 
-    private fun onRegisterAndEndButtonClick() {
+    private fun onRegisterAndFinishButtonClick() {
         // Poner un mensaje que avise de que se va a cerrar la aplicación y decidir si continuar o no.
 
         if (checkAllNecessaryInputData()) {
@@ -167,15 +167,15 @@ class MainActivity : AppCompatActivity() {
             writeDataInStorage()
 
             // Borramos todos los labels que hay que borrar:
-            binding.inputView.binding.colourEntry.setText("")
-            binding.inputView.binding.changeStartTimeLabel.text = ""
-            binding.inputView.binding.colourStartTimeLabel.text = ""
-            binding.inputView.binding.colourEndTimeLabel.text = ""
-            binding.inputView.binding.hangersEntry.setText("")
-            binding.inputView.binding.observationsEntry.setText("")
+            binding.inputView.binding.editTextColour.setText("")
+            binding.inputView.binding.textViewChangeStartTimeLabel.text = ""
+            binding.inputView.binding.textViewColourStartTimeLabel.text = ""
+            binding.inputView.binding.textViewColourEndTimeLabel.text = ""
+            binding.inputView.binding.editTextHangersAmount.setText("")
+            binding.inputView.binding.editTextObservations.setText("")
 
             // Activamos el botón del inicio del color:
-            binding.inputView.binding.colourStartTimeButton.isEnabled = true
+            binding.inputView.binding.buttonColourStartTimeHeader.isEnabled = true
 
             finish()
             exitProcess(0)
@@ -184,12 +184,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun writeDataInStorage() {
         // Creamos una variable String con todos los datos.
-        val data = binding.inputView.binding.colourEntry.text.toString() + ";" +
-                binding.inputView.binding.changeStartTimeLabel.text.toString() + ";" +
-                binding.inputView.binding.colourStartTimeLabel.text.toString() + ";" +
-                binding.inputView.binding.colourEndTimeLabel.text.toString() + ";" +
-                binding.inputView.binding.hangersEntry.text.toString() + ";" +
-                binding.inputView.binding.observationsEntry.text.toString() + "\n"
+        val data = binding.inputView.binding.editTextColour.text.toString() + ";" +
+                binding.inputView.binding.textViewChangeStartTimeLabel.text.toString() + ";" +
+                binding.inputView.binding.textViewColourStartTimeLabel.text.toString() + ";" +
+                binding.inputView.binding.textViewColourEndTimeLabel.text.toString() + ";" +
+                binding.inputView.binding.editTextHangersAmount.text.toString() + ";" +
+                binding.inputView.binding.editTextObservations.text.toString() + "\n"
 
         // Dirección en la que lo vamos a guardar
         val externalFilesFolderPath = getExternalFilesDir(null)
@@ -263,13 +263,13 @@ class MainActivity : AppCompatActivity() {
 
     //region Validación del input
     private fun checkHangers(): Boolean {
-        return binding.inputView.binding.hangersEntry.text.toString().isNotEmpty()
+        return binding.inputView.binding.editTextHangersAmount.text.toString().isNotEmpty()
     }
 
     private fun checkHours(): Boolean {
-        return (binding.inputView.binding.changeStartTimeLabel.text.toString().isNotEmpty() &&
-                binding.inputView.binding.colourStartTimeLabel.text.toString().isNotEmpty() &&
-                binding.inputView.binding.colourEndTimeLabel.text.toString().isNotEmpty())
+        return (binding.inputView.binding.textViewChangeStartTimeLabel.text.toString().isNotEmpty() &&
+                binding.inputView.binding.textViewColourStartTimeLabel.text.toString().isNotEmpty() &&
+                binding.inputView.binding.textViewColourEndTimeLabel.text.toString().isNotEmpty())
     }
 
     private fun checkColour(): Boolean {
@@ -277,8 +277,8 @@ class MainActivity : AppCompatActivity() {
         val colourList = (40100000..40100400).map { it.toString() }.toMutableList()
         colourList.add("FIN")
 
-        return binding.inputView.binding.colourEntry.text.toString().isNotEmpty() &&
-                colourList.contains(binding.inputView.binding.colourEntry.text.toString())
+        return binding.inputView.binding.editTextColour.text.toString().isNotEmpty() &&
+                colourList.contains(binding.inputView.binding.editTextColour.text.toString())
     }
     //endregion Validación del input
 
