@@ -29,31 +29,31 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Pongo todos los botones en "false" menos el de hora inicio cambio.
-        binding.changeStartTimeButton.isEnabled = true
-        binding.colourStartTimeButton.isEnabled = false
-        binding.colourEndTimeButton.isEnabled = false
+        binding.inputView.binding.changeStartTimeButton.isEnabled = true
+        binding.inputView.binding.colourStartTimeButton.isEnabled = false
+        binding.inputView.binding.colourEndTimeButton.isEnabled = false
 
-        binding.changeStartTimeButton.setOnClickListener {
+        binding.inputView.binding.changeStartTimeButton.setOnClickListener {
             val dateTime =
                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss dd/mm/yy"))
-            binding.changeStartTimeLabel.text = dateTime
-            binding.changeStartTimeButton.isEnabled = false
-            binding.colourStartTimeButton.isEnabled = true
+            binding.inputView.binding.changeStartTimeLabel.text = dateTime
+            binding.inputView.binding.changeStartTimeButton.isEnabled = false
+            binding.inputView.binding.colourStartTimeButton.isEnabled = true
         }
 
-        binding.colourStartTimeButton.setOnClickListener {
+        binding.inputView.binding.colourStartTimeButton.setOnClickListener {
             val dateTime =
                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss dd/mm/yy"))
-            binding.colourStartTimeLabel.text = dateTime
-            binding.colourStartTimeButton.isEnabled = false
-            binding.colourEndTimeButton.isEnabled = true
+            binding.inputView.binding.colourStartTimeLabel.text = dateTime
+            binding.inputView.binding.colourStartTimeButton.isEnabled = false
+            binding.inputView.binding.colourEndTimeButton.isEnabled = true
         }
 
-        binding.colourEndTimeButton.setOnClickListener {
+        binding.inputView.binding.colourEndTimeButton.setOnClickListener {
             val dateTime =
                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss dd/mm/yy"))
-            binding.colourEndTimeLabel.text = dateTime
-            binding.colourEndTimeButton.isEnabled = false
+            binding.inputView.binding.colourEndTimeLabel.text = dateTime
+            binding.inputView.binding.colourEndTimeButton.isEnabled = false
         }
 
         binding.registerContinueButton.setOnClickListener {
@@ -120,17 +120,17 @@ class MainActivity : AppCompatActivity() {
             writeDataInStorage()
 
             // Copiamos la hora del final_color en el inicio_cambio:
-            binding.colourStartTimeLabel.text = binding.colourEndTimeLabel.text
+            binding.inputView.binding.colourStartTimeLabel.text = binding.inputView.binding.colourEndTimeLabel.text
 
             // Borramos todos los labels que hay que borrar:
-            binding.colourEntry.setText("")
-            binding.colourStartTimeLabel.text = ""
-            binding.colourEndTimeLabel.text = ""
-            binding.hangersEntry.setText("")
-            binding.observationsEntry.setText("")
+            binding.inputView.binding.colourEntry.setText("")
+            binding.inputView.binding.colourStartTimeLabel.text = ""
+            binding.inputView.binding.colourEndTimeLabel.text = ""
+            binding.inputView.binding.hangersEntry.setText("")
+            binding.inputView.binding.observationsEntry.setText("")
 
             // Activamos el botón del inicio del color:
-            binding.colourStartTimeButton.isEnabled = true
+            binding.inputView.binding.colourStartTimeButton.isEnabled = true
         }
     }
 
@@ -144,15 +144,15 @@ class MainActivity : AppCompatActivity() {
             writeDataInStorage()
 
             // Borramos todos los labels que hay que borrar:
-            binding.colourEntry.setText("")
-            binding.changeStartTimeLabel.text = ""
-            binding.colourStartTimeLabel.text = ""
-            binding.colourEndTimeLabel.text = ""
-            binding.hangersEntry.setText("")
-            binding.observationsEntry.setText("")
+            binding.inputView.binding.colourEntry.setText("")
+            binding.inputView.binding.changeStartTimeLabel.text = ""
+            binding.inputView.binding.colourStartTimeLabel.text = ""
+            binding.inputView.binding.colourEndTimeLabel.text = ""
+            binding.inputView.binding.hangersEntry.setText("")
+            binding.inputView.binding.observationsEntry.setText("")
 
             // Activamos el botón del inicio del cambio:
-            binding.changeStartTimeButton.isEnabled = true
+            binding.inputView.binding.changeStartTimeButton.isEnabled = true
         }
     }
 
@@ -167,15 +167,15 @@ class MainActivity : AppCompatActivity() {
             writeDataInStorage()
 
             // Borramos todos los labels que hay que borrar:
-            binding.colourEntry.setText("")
-            binding.changeStartTimeLabel.text = ""
-            binding.colourStartTimeLabel.text = ""
-            binding.colourEndTimeLabel.text = ""
-            binding.hangersEntry.setText("")
-            binding.observationsEntry.setText("")
+            binding.inputView.binding.colourEntry.setText("")
+            binding.inputView.binding.changeStartTimeLabel.text = ""
+            binding.inputView.binding.colourStartTimeLabel.text = ""
+            binding.inputView.binding.colourEndTimeLabel.text = ""
+            binding.inputView.binding.hangersEntry.setText("")
+            binding.inputView.binding.observationsEntry.setText("")
 
             // Activamos el botón del inicio del color:
-            binding.colourStartTimeButton.isEnabled = true
+            binding.inputView.binding.colourStartTimeButton.isEnabled = true
 
             finish()
             exitProcess(0)
@@ -184,12 +184,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun writeDataInStorage() {
         // Creamos una variable String con todos los datos.
-        val data = binding.colourEntry.text.toString() + ";" +
-                binding.changeStartTimeLabel.text.toString() + ";" +
-                binding.colourStartTimeLabel.text.toString() + ";" +
-                binding.colourEndTimeLabel.text.toString() + ";" +
-                binding.hangersEntry.text.toString() + ";" +
-                binding.observationsEntry.text.toString() + "\n"
+        val data = binding.inputView.binding.colourEntry.text.toString() + ";" +
+                binding.inputView.binding.changeStartTimeLabel.text.toString() + ";" +
+                binding.inputView.binding.colourStartTimeLabel.text.toString() + ";" +
+                binding.inputView.binding.colourEndTimeLabel.text.toString() + ";" +
+                binding.inputView.binding.hangersEntry.text.toString() + ";" +
+                binding.inputView.binding.observationsEntry.text.toString() + "\n"
 
         // Dirección en la que lo vamos a guardar
         val externalFilesFolderPath = getExternalFilesDir(null)
@@ -263,13 +263,13 @@ class MainActivity : AppCompatActivity() {
 
     //region Validación del input
     private fun checkHangers(): Boolean {
-        return binding.hangersEntry.text.toString().isNotEmpty()
+        return binding.inputView.binding.hangersEntry.text.toString().isNotEmpty()
     }
 
     private fun checkHours(): Boolean {
-        return (binding.changeStartTimeLabel.text.toString().isNotEmpty() &&
-                binding.colourStartTimeLabel.text.toString().isNotEmpty() &&
-                binding.colourEndTimeLabel.text.toString().isNotEmpty())
+        return (binding.inputView.binding.changeStartTimeLabel.text.toString().isNotEmpty() &&
+                binding.inputView.binding.colourStartTimeLabel.text.toString().isNotEmpty() &&
+                binding.inputView.binding.colourEndTimeLabel.text.toString().isNotEmpty())
     }
 
     private fun checkColour(): Boolean {
@@ -277,8 +277,8 @@ class MainActivity : AppCompatActivity() {
         val colourList = (40100000..40100400).map { it.toString() }.toMutableList()
         colourList.add("FIN")
 
-        return binding.colourEntry.text.toString().isNotEmpty() &&
-                colourList.contains(binding.colourEntry.text.toString())
+        return binding.inputView.binding.colourEntry.text.toString().isNotEmpty() &&
+                colourList.contains(binding.inputView.binding.colourEntry.text.toString())
     }
     //endregion Validación del input
 
