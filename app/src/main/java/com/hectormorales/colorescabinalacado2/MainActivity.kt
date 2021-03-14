@@ -7,9 +7,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.hectormorales.colorescabinalacado2.databinding.ActivityMainBinding
-import com.hectormorales.colorescabinalacado2.view.HistoricalItem
 import com.hectormorales.colorescabinalacado2.view.HistoricalUiModel
 import com.opencsv.CSVReader
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.*
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -20,6 +20,8 @@ import kotlin.system.exitProcess
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    private val historicalViewModel: HistoricalViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,20 +68,14 @@ class MainActivity : AppCompatActivity() {
             onRegisterAndEndButtonClick()
         }
 
-        // Esto es temporal, la idea es mostrar algo para ver que todo funciona bien, pero
-        // hay que cargar el registro y convertirlo a HistoricalItem
-        val historicalItems = listOf(
-            HistoricalItem("fakeID", "40100100", "20:06:33", "20:06:33", "20:06:33", 2, ""),
-            HistoricalItem("fakeID", "40100100", "20:06:33", "20:06:33", "20:06:33", 2, ""),
-            HistoricalItem("fakeID", "40100100", "20:06:33", "20:06:33", "20:06:33", 2, ""),
-            HistoricalItem("fakeID", "40100100", "20:06:33", "20:06:33", "20:06:33", 2, "")
-        )
-        showData(historicalItems)
+        historicalViewModel.onStart()
+        with(historicalViewModel) {
+            historicalListObservable.observe(this@MainActivity, { populateHistorical(it) })
+        }
     }
 
-    private fun showData(historicalItems: List<HistoricalItem>) {
-        val historicalUiModel = HistoricalUiModel(historicalItems)
-        binding.historicalView.bind(historicalUiModel)
+    private fun populateHistorical(model: HistoricalUiModel) {
+        binding.historicalView.bind(model)
     }
 
     private fun checkAllNecessaryInputData(): Boolean {
@@ -118,7 +114,7 @@ class MainActivity : AppCompatActivity() {
     private fun onRegisterAndContinueButtonClick() {
         if (checkAllNecessaryInputData()) {
             // Ponemos lo último que hemos introducido en la pantalla:
-            showData(emptyList())
+            populateHistorical(HistoricalUiModel(emptyList()))
 
             // Poner función para guardar esto en un archivo:
             writeDataInStorage()
@@ -142,7 +138,7 @@ class MainActivity : AppCompatActivity() {
         // Poner un mensaje de que se va a registrar e irse al descanso y si se quiere continuar o no.
         if (checkAllNecessaryInputData()) {
             // Ponemos el lo último que hemos introducido en la pantalla:
-            showData(emptyList())
+            populateHistorical(HistoricalUiModel(emptyList()))
 
             // Poner función para guardar esto en un archivo:
             writeDataInStorage()
@@ -165,7 +161,7 @@ class MainActivity : AppCompatActivity() {
 
         if (checkAllNecessaryInputData()) {
             // Ponemos el lo último que hemos introducido en la pantalla:
-            showData(emptyList())
+            populateHistorical(HistoricalUiModel(emptyList()))
 
             // Poner función para guardar esto en un archivo:
             writeDataInStorage()
@@ -228,6 +224,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // TODO mover a HistoricalViewModel
     private fun readDataInStorage() {
         val storageDir = getExternalFilesDir("Registros")?.also {
             if (!it.exists()) {
@@ -276,6 +273,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkColour(): Boolean {
+        // TODO solución temporal, cargar colores de fichero
         val colourList = (40100000..40100400).map { it.toString() }.toMutableList()
         colourList.add("FIN")
 
