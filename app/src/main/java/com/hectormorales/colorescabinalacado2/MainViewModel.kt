@@ -14,11 +14,8 @@ class MainViewModel : ViewModel() {
     val colourEndEnableObservable = MutableLiveData<Boolean>()
 
     fun onStart() {
-        // Pongo todos los botones en "false" menos el de hora inicio cambio.
-        changeStartEnableObservable.value = true
-        colourStartEnableObservable.value = false
-        colourEndEnableObservable.value = false
         inputUiModelObservable.value = InputUiModel("", "", "", "", "", "")
+        updateButtonActivation()
     }
 
     fun onChangeStartButtonClick() {
@@ -27,9 +24,7 @@ class MainViewModel : ViewModel() {
         currentInputUiModel?.let {
             inputUiModelObservable.value = it.copy(changeStartTime = dateTime)
         }
-        changeStartEnableObservable.value = false
-        colourStartEnableObservable.value = true
-        colourEndEnableObservable.value = false
+        updateButtonActivation()
     }
 
     fun onColourStartButtonClick() {
@@ -38,9 +33,7 @@ class MainViewModel : ViewModel() {
         currentInputUiModel?.let {
             inputUiModelObservable.value = it.copy(colourStartTime = dateTime)
         }
-        changeStartEnableObservable.value = false
-        colourStartEnableObservable.value = false
-        colourEndEnableObservable.value = true
+        updateButtonActivation()
     }
 
     fun onColourEndButtonClick() {
@@ -49,9 +42,59 @@ class MainViewModel : ViewModel() {
         currentInputUiModel?.let {
             inputUiModelObservable.value = it.copy(colourEndTime = dateTime)
         }
-        changeStartEnableObservable.value = false
-        colourStartEnableObservable.value = false
-        colourEndEnableObservable.value = false
+        updateButtonActivation()
+    }
+
+    fun onColourInput(colour: String) {
+        val currentInputUiModel = inputUiModelObservable.value
+        currentInputUiModel?.let {
+            inputUiModelObservable.value = it.copy(colourCode = colour)
+        }
+    }
+
+    fun onHangersAmountInput(hangersAmount: String) {
+        val i=0
+    }
+
+    fun onObservationsInput(observations: String) {
+        val i=0
+    }
+
+    fun onRegisterAndContinueButtonClick() {
+//        if (checkAllNecessaryInputData()) {
+//            // Ponemos lo último que hemos introducido en la pantalla:
+//            populateHistorical(HistoricalUiModel(emptyList()))
+//
+//            // Poner función para guardar esto en un archivo:
+//            writeDataInStorage()
+
+            // Copiamos la hora del final_color en el inicio_cambio:
+            val colourEndTime = inputUiModelObservable.value!!.colourEndTime
+            inputUiModelObservable.value = InputUiModel("", colourEndTime, "", "", "", "")
+            updateButtonActivation()
+//        }
+    }
+
+    fun onRegisterAndBreakButtonClick() {
+        TODO("Not yet implemented")
+    }
+
+    fun onRegisterAndFinishButtonClick() {
+        TODO("Not yet implemented")
+    }
+
+    // Actualiza los botones Inicio Cambio, Inicio Color y Final Color dependiendo si están vacíos o no
+    private fun updateButtonActivation() {
+        inputUiModelObservable.value?.let {
+            changeStartEnableObservable.value =
+                it.changeStartTime.isEmpty()
+
+            colourStartEnableObservable.value =
+                it.changeStartTime.isNotEmpty() && it.colourStartTime.isEmpty()
+
+            colourEndEnableObservable.value =
+                it.changeStartTime.isNotEmpty() && it.colourStartTime.isNotEmpty() && it.colourEndTime.isEmpty()
+        }
     }
 
     private fun getFormattedDateTime() =

@@ -32,25 +32,30 @@ class MainActivity : AppCompatActivity() {
         binding.inputView.binding.buttonChangeStartTimeHeader.setOnClickListener {
             mainViewModel.onChangeStartButtonClick()
         }
-
         binding.inputView.binding.buttonColourStartTimeHeader.setOnClickListener {
             mainViewModel.onColourStartButtonClick()
         }
-
         binding.inputView.binding.buttonColourEndTimeHeader.setOnClickListener {
             mainViewModel.onColourEndButtonClick()
         }
+        binding.inputView.setColourCodeTextWatcher {
+            mainViewModel.onColourInput(it)
+        }
+        binding.inputView.setHangersAmountTextWatcher {
+            mainViewModel.onHangersAmountInput(it)
+        }
+        binding.inputView.setObservationsTextWatcher {
+            mainViewModel.onObservationsInput(it)
+        }
 
         binding.buttonRegisterAndContinue.setOnClickListener {
-            onRegisterAndContinueButtonClick()
+            mainViewModel.onRegisterAndContinueButtonClick()
         }
-
         binding.buttonRegisterAndBreak.setOnClickListener {
-            onRegisterAndBreakButtonClick()
+            mainViewModel.onRegisterAndBreakButtonClick()
         }
-
         binding.buttonRegisterAndFinish.setOnClickListener {
-            onRegisterAndFinishButtonClick()
+            mainViewModel.onRegisterAndFinishButtonClick()
         }
 
         with(mainViewModel) {
@@ -281,8 +286,8 @@ class MainActivity : AppCompatActivity() {
         val colourList = (40100000..40100400).map { it.toString() }.toMutableList()
         colourList.add("FIN")
 
-        return binding.inputView.binding.editTextColour.text.toString().isNotEmpty() &&
-                colourList.contains(binding.inputView.binding.editTextColour.text.toString())
+        val currentColour = binding.inputView.binding.editTextColour.text.toString()
+        return currentColour.isNotEmpty() && currentColour in colourList
     }
     //endregion Validación del input
 

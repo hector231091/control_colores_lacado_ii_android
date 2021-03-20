@@ -90,6 +90,7 @@
         <EditText
             android:id="@+id/editTextColour"
             android:layout_width="0dp"
+            android:inputType="textNoSuggestions"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/border_edit_text_and_text_view"
