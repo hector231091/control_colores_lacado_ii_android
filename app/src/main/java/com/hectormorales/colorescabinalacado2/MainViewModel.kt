@@ -5,13 +5,16 @@ import androidx.lifecycle.ViewModel
 import com.hectormorales.colorescabinalacado2.view.InputUiModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.util.*
+import kotlin.system.exitProcess
 
-class MainViewModel : ViewModel() {
+class MainViewModel(private val validator: Validator) : ViewModel() {
 
     val inputUiModelObservable = MutableLiveData<InputUiModel>()
     val changeStartEnableObservable = MutableLiveData<Boolean>()
     val colourStartEnableObservable = MutableLiveData<Boolean>()
     val colourEndEnableObservable = MutableLiveData<Boolean>()
+    val errorMessageObservable = MutableLiveData<String>()
 
     fun onStart() {
         inputUiModelObservable.value = InputUiModel("", "", "", "", "", "")
@@ -53,34 +56,78 @@ class MainViewModel : ViewModel() {
     }
 
     fun onHangersAmountInput(hangersAmount: String) {
-        val i=0
+        val currentInputUiModel = inputUiModelObservable.value
+        currentInputUiModel?.let {
+            inputUiModelObservable.value = it.copy(hangersAmount = hangersAmount)
+        }
     }
 
     fun onObservationsInput(observations: String) {
-        val i=0
+        val currentInputUiModel = inputUiModelObservable.value
+        currentInputUiModel?.let {
+            inputUiModelObservable.value = it.copy(observations = observations)
+        }
     }
 
     fun onRegisterAndContinueButtonClick() {
-//        if (checkAllNecessaryInputData()) {
-//            // Ponemos lo último que hemos introducido en la pantalla:
-//            populateHistorical(HistoricalUiModel(emptyList()))
-//
-//            // Poner función para guardar esto en un archivo:
-//            writeDataInStorage()
+        when (validator.validate(inputUiModelObservable.value!!)) {
+            Validator.Validation.Success -> {
+                writeRegisterInStorage(inputUiModelObservable.value!!)
 
-            // Copiamos la hora del final_color en el inicio_cambio:
-            val colourEndTime = inputUiModelObservable.value!!.colourEndTime
-            inputUiModelObservable.value = InputUiModel("", colourEndTime, "", "", "", "")
-            updateButtonActivation()
-//        }
+                // Copiamos la hora del final_color en el inicio_cambio:
+                val colourEndTime = inputUiModelObservable.value!!.colourEndTime
+                inputUiModelObservable.value = InputUiModel("", colourEndTime, "", "", "", "")
+                updateButtonActivation()
+            }
+
+            Validator.Validation.Failure.InvalidColour ->
+                errorMessageObservable.value = "El color introducido no es correcto."
+
+            Validator.Validation.Failure.InvalidHours ->
+                errorMessageObservable.value = "Debes introducir las tres horas."
+
+            Validator.Validation.Failure.InvalidHangers ->
+                errorMessageObservable.value = "El campo de bastidores debe estar relleno."
+        }
     }
 
     fun onRegisterAndBreakButtonClick() {
-        TODO("Not yet implemented")
+        when (validator.validate(inputUiModelObservable.value!!)) {
+            Validator.Validation.Success -> {
+                writeRegisterInStorage(inputUiModelObservable.value!!)
+
+                inputUiModelObservable.value = InputUiModel("", "", "", "", "", "")
+                updateButtonActivation()
+            }
+
+            Validator.Validation.Failure.InvalidColour ->
+                errorMessageObservable.value = "El color introducido no es correcto."
+
+            Validator.Validation.Failure.InvalidHours ->
+                errorMessageObservable.value = "Debes introducir las tres horas."
+
+            Validator.Validation.Failure.InvalidHangers ->
+                errorMessageObservable.value = "El campo de bastidores debe estar relleno."
+        }
     }
 
     fun onRegisterAndFinishButtonClick() {
-        TODO("Not yet implemented")
+        when (validator.validate(inputUiModelObservable.value!!)) {
+            Validator.Validation.Success -> {
+                writeRegisterInStorage(inputUiModelObservable.value!!)
+
+                exitProcess(0)
+            }
+
+            Validator.Validation.Failure.InvalidColour ->
+                errorMessageObservable.value = "El color introducido no es correcto."
+
+            Validator.Validation.Failure.InvalidHours ->
+                errorMessageObservable.value = "Debes introducir las tres horas."
+
+            Validator.Validation.Failure.InvalidHangers ->
+                errorMessageObservable.value = "El campo de bastidores debe estar relleno."
+        }
     }
 
     // Actualiza los botones Inicio Cambio, Inicio Color y Final Color dependiendo si están vacíos o no
@@ -99,4 +146,11 @@ class MainViewModel : ViewModel() {
 
     private fun getFormattedDateTime() =
         LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yy"))
+
+    private fun writeRegisterInStorage(model: InputUiModel) {
+        // Poner función para guardar esto en un archivo:
+        // Internamente deberá escribir el último registro en el historial
+
+        // Guardar en base de datos y volcar a fichero bajo demanda?
+    }
 }
